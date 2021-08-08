@@ -1,5 +1,4 @@
 import os
-import datetime
 import pymysql
 
 # Get the username from the Cloud9 workspace
@@ -11,11 +10,13 @@ connection = pymysql.connect(host='localhost',
                              user=username,
                              password='',
                              db='Chinook')
-
 try:
     with connection.cursor() as cursor:
-        row = ("Josh", 21, "2000-02-07 11:04:21")
-        cursor.execute("INSERT INTO Friends VALUES (%s, %s, %s);", row)
+        rows = [(23, 'bob'),
+                (24, 'jim'),
+                (25, 'fred')]
+        cursor.executemany("UPDATE Friends SET age = %s WHERE name = %s;",
+                           rows)
         connection.commit()
 finally:
     connection.close()
